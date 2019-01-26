@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import Product from "./Product"; // Product Component
+import Product from "./Product/Product"; // Product Component
 
 export default class App extends React.Component {
   componentWillMount() {
