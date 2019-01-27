@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  FlatList,
-  Button,
-  ActivityIndicator
-} from "react-native";
+import { StyleSheet, View, Text, FlatList } from "react-native";
 import Sponsor from "./components/Sponsor";
+import ProductGrid from "./components/ProductGrid";
 
 import faces from "./data/faces";
 
@@ -30,11 +23,10 @@ class Product extends React.Component {
 
     this.state = {
       sponsors: [],
-      shownProducts: [],
-      selectedSort: ""
+      shownProducts: []
     };
 
-    // Create 500 products
+    // Creates 500 products
     for (let i = 0; i < 500; i++) {
       productList.push({
         key: getRandomInRange(0, 100000) + "-" + getRandomString(),
@@ -46,13 +38,6 @@ class Product extends React.Component {
         ).toString()
       });
     }
-
-    // en-US currency number format
-    this.formatter = new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2
-    });
   }
 
   componentDidMount() {
@@ -63,9 +48,9 @@ class Product extends React.Component {
 
   /* Sponsors functions */
   generateSponsor = () => {
-    var numberExists = false;
+    let numberExists = false;
     while (!numberExists) {
-      var randomNumber = Math.floor(Math.random() * 1080);
+      let randomNumber = Math.floor(Math.random() * 1080);
       if (this.state.sponsors.indexOf(randomNumber) == -1) {
         this.setState({ sponsors: [...this.state.sponsors, randomNumber] });
         numberExists = true;
@@ -73,7 +58,7 @@ class Product extends React.Component {
     }
   };
 
-  /* Products functions */
+  /* Products Grid functions */
   sortProducts = attrKey => {
     this.setState({
       shownProducts: this.state.shownProducts.sort((a, b) => {
@@ -87,31 +72,6 @@ class Product extends React.Component {
         return 0;
       })
     });
-  };
-
-  renderFooter = () => {
-    return this.state.shownProducts.length == productList.length ? (
-      <View
-        style={{
-          paddingTop: 20,
-          paddingBottom: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
-        <Text style={{ textAlign: "center" }}>~ end of catalogue ~</Text>
-      </View>
-    ) : (
-      <View
-        style={{
-          paddingTop: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
   };
 
   handleLoadMore = () => {
@@ -136,16 +96,18 @@ class Product extends React.Component {
       <View style={styles.mainView}>
         {/* Header Content */}
         <Text style={styles.h1}>Products Grid</Text>
-        <Text style={styles.p}>
+        <Text style={[styles.p, { flex: 1 }]}>
           Here you're sure to find a bargain on some of the finest ascii
           available to purchase. Be sure to peruse our selection of ascii faces
           in an exciting range of sizes and prices.
         </Text>
-        <Text style={styles.p}>But first, a word from our sponsors:</Text>
+        <Text style={[styles.p, { flex: 0 }]}>
+          But first, a word from our sponsors:
+        </Text>
 
         {/* Sponsors */}
         <FlatList
-          style={{ height: 150 }}
+          style={{ flex: 1 }}
           data={this.state.sponsors}
           extraData={this.state}
           renderItem={({ item }) => <Sponsor imageId={item} />}
@@ -157,48 +119,13 @@ class Product extends React.Component {
           ))}
         </FlatList>
 
-        {/* Sort by Section */}
-        <View style={[styles.verticalView]}>
-          <Text>Sort by:</Text>
-          <Button
-            onPress={() => {
-              this.sortProducts("size");
-            }}
-            title="Size"
-            color="#841584"
-          />
-          <Button
-            onPress={() => {
-              this.sortProducts("price");
-            }}
-            title="Price"
-            color="#841584"
-          />
-          <Button
-            onPress={() => {
-              this.sortProducts("key");
-            }}
-            title="ID"
-            color="#841584"
-          />
-        </View>
-
-        {/* Products Grid */}
-        <FlatList
-          style={styles.productGrid}
-          data={this.state.shownProducts}
-          extraData={this.state}
-          renderItem={({ item }) => (
-            <View key={item.key} style={styles.verticalView}>
-              <Text style={{ fontSize: item.size }}>{item.face}</Text>
-              <Text>{this.formatter.format(item.price)}</Text>
-              <Text>{item.date}</Text>
-            </View>
-          )}
-          onEndReached={this.handleLoadMore}
-          onEndThreshold={10}
-          ListFooterComponent={this.renderFooter}
-          onEndReachedThreshold={0.5}
+        <ProductGrid
+          shownProducts={this.state.shownProducts}
+          productList={productList}
+          sortProducts={attrKey => {
+            this.sortProducts(attrKey);
+          }}
+          handleLoadMore={this.handleLoadMore}
         />
       </View>
     );
@@ -212,17 +139,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5
   },
   h1: {
-    fontSize: 32
+    fontSize: 32,
+    flex: 0.5
   },
   p: {
-    marginBottom: 15,
     textAlign: "justify"
-  },
-  verticalView: {
-    flexDirection: "row"
-  },
-  productGrid: {
-    marginBottom: 15
   }
 });
 
