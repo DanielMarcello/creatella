@@ -31,8 +31,7 @@ class Product extends React.Component {
     this.state = {
       sponsors: [],
       shownProducts: [],
-      selecterSort: "",
-      loading: false
+      selectedSort: ""
     };
 
     // Create 500 products
@@ -91,7 +90,18 @@ class Product extends React.Component {
   };
 
   renderFooter = () => {
-    return (
+    return this.state.shownProducts.length == productList.length ? (
+      <View
+        style={{
+          paddingTop: 20,
+          paddingBottom: 20,
+          borderTopWidth: 1,
+          borderColor: "#CED0CE"
+        }}
+      >
+        <Text style={{ textAlign: "center" }}>~ end of catalogue ~</Text>
+      </View>
+    ) : (
       <View
         style={{
           paddingTop: 20,
@@ -105,18 +115,20 @@ class Product extends React.Component {
   };
 
   handleLoadMore = () => {
-    setTimeout(() => {
-      console.log("Refreshing...");
-      const { shownProducts } = this.state;
-      const newProducts = productList.slice(
-        shownProducts.length,
-        shownProducts.length + 20
-      );
-      this.setState({
-        shownProducts: [...shownProducts, ...newProducts]
-      });
-      this.generateSponsor();
-    }, 2000);
+    if (this.state.shownProducts.length !== productList.length) {
+      setTimeout(() => {
+        console.log("Refreshing...");
+        const { shownProducts } = this.state;
+        const newProducts = productList.slice(
+          shownProducts.length,
+          shownProducts.length + 20
+        );
+        this.setState({
+          shownProducts: [...shownProducts, ...newProducts]
+        });
+        this.generateSponsor();
+      }, 2000);
+    }
   };
 
   render() {
@@ -205,10 +217,6 @@ const styles = StyleSheet.create({
   p: {
     marginBottom: 15,
     textAlign: "justify"
-  },
-  sponsor: {
-    width: 93,
-    height: 68
   },
   verticalView: {
     flexDirection: "row"
