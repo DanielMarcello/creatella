@@ -29,25 +29,11 @@ class ProductGrid extends React.Component {
 
   renderFooter = () => {
     return this.props.shownProducts.length == this.props.productList.length ? (
-      <View
-        style={{
-          paddingTop: 20,
-          paddingBottom: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
+      <View style={styles.gridFooter}>
         <Text style={{ textAlign: "center" }}>~ end of catalogue ~</Text>
       </View>
     ) : (
-      <View
-        style={{
-          paddingTop: 20,
-          paddingBottom: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
+      <View style={styles.gridFooter}>
         <ActivityIndicator animating size="large" />
       </View>
     );
@@ -94,7 +80,7 @@ class ProductGrid extends React.Component {
           renderItem={({ item }) => (
             <View key={item.key} style={styles.verticalView}>
               <Text style={{ fontSize: item.size }}>{item.face}</Text>
-              <Text>{this.formatter.format(item.price)}</Text>
+              <Text>{this.formatter.format(item.price / 100)}</Text>
               <Text>{item.date}</Text>
             </View>
           )}
@@ -119,6 +105,12 @@ const styles = StyleSheet.create({
   },
   productGrid: {
     marginBottom: 15
+  },
+  gridFooter: {
+    paddingTop: 20,
+    paddingBottom: 20,
+    borderTopWidth: 1,
+    borderColor: "#CED0CE"
   }
 });
 
