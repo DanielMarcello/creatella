@@ -6,6 +6,20 @@ import ProductGrid from "./components/ProductGrid";
 import faces from "./data/faces";
 
 const productList = [];
+const monthsList = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec"
+];
 
 getRandomString = () => {
   return Math.random()
@@ -15,6 +29,18 @@ getRandomString = () => {
 
 getRandomInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
+};
+
+dateFormatter = date => {
+  now = new Date();
+  var daysCounter = Math.abs(Math.floor((date - now) / (1000 * 60 * 60 * 24)));
+  if (daysCounter == 0) return "Today.";
+  if (daysCounter == 0) return "1 day ago.";
+  if (2 <= daysCounter && daysCounter <= 6) return `${daysCounter} days ago.`;
+  if (daysCounter == 7) return "1 week ago.";
+  return `${
+    monthsList[date.getMonth()]
+  } ${date.getDate()} ${date.getFullYear()}`;
 };
 
 class Product extends React.Component {
@@ -33,9 +59,9 @@ class Product extends React.Component {
         size: getRandomInRange(12, 40),
         price: getRandomInRange(1, 1000),
         face: faces[i % faces.length],
-        date: new Date(
-          Date.now() - getRandomInRange(1, 1000 * 3600 * 24 * 15)
-        ).toString()
+        date: dateFormatter(
+          new Date(Date.now() - getRandomInRange(1, 1000 * 3600 * 24 * 15))
+        )
       });
     }
   }
@@ -119,6 +145,7 @@ class Product extends React.Component {
           ))}
         </FlatList>
 
+        {/* Products Grid */}
         <ProductGrid
           shownProducts={this.state.shownProducts}
           productList={productList}
