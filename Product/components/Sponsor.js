@@ -27,7 +27,11 @@ const styles = StyleSheet.create({
     height: 68,
     marginLeft: 8,
     marginBottom: 4,
-    marginTop: 2
+    marginTop: 2,
+    backgroundColor: "#fafafa",
+    borderRadius: 10,
+    borderColor: "#612940",
+    borderWidth: 5
   }
 });
 

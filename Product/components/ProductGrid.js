@@ -34,7 +34,7 @@ class ProductGrid extends React.Component {
       </View>
     ) : (
       <View style={styles.gridFooter}>
-        <ActivityIndicator animating size="large" />
+        <ActivityIndicator animating size="large" color="#38023B" />
       </View>
     );
   };
@@ -48,27 +48,27 @@ class ProductGrid extends React.Component {
       <View style={styles.mainView}>
         {/* Sort by Section */}
         <View style={[styles.verticalView]}>
-          <Text>Sort by:</Text>
+          <Text style={{ paddingTop: 10 }}>Sort by:</Text>
           <Button
             onPress={() => {
               this.sortProducts("size");
             }}
             title="Size"
-            color="#841584"
+            color="#9E2B25"
           />
           <Button
             onPress={() => {
               this.sortProducts("price");
             }}
             title="Price"
-            color="#841584"
+            color="#9E2B25"
           />
           <Button
             onPress={() => {
               this.sortProducts("key");
             }}
             title="ID"
-            color="#841584"
+            color="#9E2B25"
           />
         </View>
 
@@ -78,7 +78,10 @@ class ProductGrid extends React.Component {
           data={this.props.shownProducts}
           extraData={this.props}
           renderItem={({ item }) => (
-            <View key={item.key} style={styles.verticalView}>
+            <View
+              key={item.key}
+              style={[styles.verticalView, styles.productItem]}
+            >
               <Text style={{ fontSize: item.size }}>{item.face}</Text>
               <Text>{this.formatter.format(item.price / 100)}</Text>
               <Text>{item.date}</Text>
@@ -97,14 +100,18 @@ class ProductGrid extends React.Component {
 const styles = StyleSheet.create({
   mainView: {
     flex: 5,
-    top: "2%",
     paddingHorizontal: 5
   },
   verticalView: {
     flexDirection: "row"
   },
   productGrid: {
-    marginBottom: 15
+    marginBottom: 15,
+    backgroundColor: "#F6F6E5"
+  },
+  productItem: {
+    borderColor: "#38023B",
+    borderWidth: 5
   },
   gridFooter: {
     paddingTop: 20,
