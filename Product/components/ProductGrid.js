@@ -78,13 +78,18 @@ class ProductGrid extends React.Component {
           data={this.props.shownProducts}
           extraData={this.props}
           renderItem={({ item }) => (
-            <View
-              key={item.key}
-              style={[styles.verticalView, styles.productItem]}
-            >
-              <Text style={{ fontSize: item.size }}>{item.face}</Text>
-              <Text>{this.formatter.format(item.price / 100)}</Text>
-              <Text>{item.date}</Text>
+            <View key={item.key} style={[styles.productItem]}>
+              <Text style={{ fontSize: item.size, textAlign: "center" }}>
+                {item.face}
+              </Text>
+              <View style={[styles.verticalView, { flex: 1 }]}>
+                <Text style={{ textAlign: "center", flex: 1 }}>
+                  {this.formatter.format(item.price / 100)}
+                </Text>
+                <Text style={{ textAlign: "center", flex: 1 }}>
+                  {item.date}
+                </Text>
+              </View>
             </View>
           )}
           onEndReached={this.handleLoadMore}
@@ -111,7 +116,9 @@ const styles = StyleSheet.create({
   },
   productItem: {
     borderColor: "#38023B",
-    borderWidth: 5
+    borderWidth: 5,
+    padding: 5,
+    flex: 1
   },
   gridFooter: {
     paddingTop: 20,
