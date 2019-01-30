@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList, Dimensions } from "react-native";
 import Sponsor from "./components/Sponsor";
 import ProductGrid from "./components/ProductGrid";
 
@@ -138,7 +138,7 @@ class Product extends React.Component {
           extraData={this.state}
           renderItem={({ item }) => <Sponsor imageId={item} />}
           keyExtractor={item => item.toString()}
-          numColumns={3}
+          numColumns={Math.floor(Dimensions.get("window").width / 93)}
         >
           {this.state.sponsors.map(item => (
             <Sponsor imageId={item} key={item} />
