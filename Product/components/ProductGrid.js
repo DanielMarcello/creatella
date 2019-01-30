@@ -15,11 +15,11 @@ class ProductGrid extends React.Component {
     this.state = {};
 
     // en-US currency number format
-    this.formatter = new Intl.NumberFormat("en-US", {
+    /* this.formatter = new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
       minimumFractionDigits: 2
-    });
+    }); */
   }
 
   /* Products functions */
@@ -84,7 +84,7 @@ class ProductGrid extends React.Component {
               </Text>
               <View style={[styles.verticalView, { flex: 1 }]}>
                 <Text style={{ textAlign: "center", flex: 1 }}>
-                  {this.formatter.format(item.price / 100)}
+                  ${item.price / 100}
                 </Text>
                 <Text style={{ textAlign: "center", flex: 1 }}>
                   {item.date}
