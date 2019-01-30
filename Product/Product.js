@@ -1,8 +1,11 @@
 import React from "react";
 import { StyleSheet, View, Text, FlatList, Dimensions } from "react-native";
+
+// Components
 import Sponsor from "./components/Sponsor";
 import ProductGrid from "./components/ProductGrid";
 
+// List of faces
 import faces from "./data/faces";
 
 const productList = [];
@@ -21,18 +24,21 @@ const monthsList = [
   "Dec"
 ];
 
+/* Function to generate key product */
 getRandomString = () => {
   return Math.random()
     .toString(36)
     .substr(2);
 };
 
+/* Function to generate key, size, price and date of product */
 getRandomInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
+/* Function to format product date ccording to requirements */
 dateFormatter = date => {
-  now = new Date();
+  now = new Date(); // Current date
   var daysCounter = Math.abs(Math.floor((date - now) / (1000 * 60 * 60 * 24)));
   if (daysCounter == 0) return "Today.";
   if (daysCounter == 0) return "1 day ago.";
@@ -40,7 +46,7 @@ dateFormatter = date => {
   if (daysCounter == 7) return "1 week ago.";
   return `${
     monthsList[date.getMonth()]
-  } ${date.getDate()} ${date.getFullYear()}`;
+  } ${date.getDate()} ${date.getFullYear()}.`;
 };
 
 class Product extends React.Component {
@@ -67,12 +73,13 @@ class Product extends React.Component {
   }
 
   componentDidMount() {
-    // Sets the first 20 products
+    // Sets the first 20 products and generates first sponsor
     this.setState({ shownProducts: productList.slice(0, 20) });
     this.generateSponsor();
   }
 
   /* Sponsors functions */
+  /* Generates a random sponsor */
   generateSponsor = () => {
     let numberExists = false;
     while (!numberExists) {
@@ -85,6 +92,7 @@ class Product extends React.Component {
   };
 
   /* Products Grid functions */
+  /* Sorts products according to the pressed button */
   sortProducts = attrKey => {
     this.setState({
       shownProducts: this.state.shownProducts.sort((a, b) => {
@@ -100,6 +108,7 @@ class Product extends React.Component {
     });
   };
 
+  /* Loads the next 20 products */
   handleLoadMore = () => {
     if (this.state.shownProducts.length !== productList.length) {
       setTimeout(() => {

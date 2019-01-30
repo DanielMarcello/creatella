@@ -14,6 +14,7 @@ class ProductGrid extends React.Component {
 
     this.state = {};
 
+    // NOTE: due to android OS problems, this way of formatting the currency was discarded
     // en-US currency number format
     /* this.formatter = new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -22,11 +23,11 @@ class ProductGrid extends React.Component {
     }); */
   }
 
-  /* Products functions */
   sortProducts = attrKey => {
     this.props.sortProducts(attrKey);
   };
 
+  /* Shows in grid footer a loading animation or "end of catalogue" text */
   renderFooter = () => {
     return this.props.shownProducts.length == this.props.productList.length ? (
       <View style={styles.gridFooter}>
